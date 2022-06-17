@@ -1,54 +1,21 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
-        GameMethods theGame = new GameMethods("JEDI","");
-        int guessCount=0;
+
+        GameMethods theGame = new GameMethods("","",0);
         String guess="";
         String playAgain = "Y";
         StringBuilder guessList = new StringBuilder();
         do {
-            System.out.println("  H A N G M A N  ");
-            System.out.println("++======++");
-            System.out.println(" |      ||");
-           if(guessCount==0){
-            System.out.println("        ||");
-            System.out.println("        ||");
-            System.out.println("        ||");
-            System.out.println("        ||");
-           }else if(guessCount==1){
-               System.out.println(" O      ||");
-               System.out.println("        ||");
-               System.out.println("        ||");
-               System.out.println("        ||");
-           }else if(guessCount==2){
-               System.out.println(" O      ||");
-               System.out.println(" |      ||");
-               System.out.println(" |      ||");
-               System.out.println("        ||");
-           }else if(guessCount==3){
-               System.out.println(" O      ||");
-               System.out.println("/|      ||");
-               System.out.println(" |      ||");
-               System.out.println("        ||");
-           }else if(guessCount==4){
-               System.out.println(" O      ||");
-               System.out.println("/|\\     ||");
-               System.out.println(" |      ||");
-               System.out.println("        ||");
-           }else if(guessCount==5){
-               System.out.println(" O      ||");
-               System.out.println("/|\\     ||");
-               System.out.println(" |      ||");
-               System.out.println("/       ||");
-            }
-            System.out.println("===========");
-            System.out.println("Missed Guesses: " + theGame.getWrongGuesses());
-            System.out.println("____");
-            System.out.println("Guess a single letter. Multiple letters incur a penalty!");
-            System.out.println("You have " +(6-guessCount)+" guesses remaining.");
+            theGame.assignWord();
+            theGame.printMan();
             try{
             guess = input.nextLine().toUpperCase();
             }catch (Exception e) {
@@ -59,12 +26,18 @@ public class Main {
                 }
 
             else{guessList.append(guess);
-            guessCount++;}
+            }
             if(guess.length()!=1){
                 System.out.println("Please Follow Instructions!");
-            }else{
-            theGame.checker(guess);}
-        if(guessCount==6){
+            }else {
+                try {
+                    theGame.checker(guess);
+                } catch (Exception e) {
+                    System.out.println("Don't enter numbers!");
+                }
+            }
+
+        if(theGame.getGuessCount()==6){
             System.out.println(" O      ||");
             System.out.println("/|\\     ||");
             System.out.println(" |      ||");
@@ -72,7 +45,7 @@ public class Main {
             System.out.println("The man is hung... ");
         System.out.println("You are out of guesses play again with another man? Y/N");
         playAgain=input.next().toUpperCase();
-        guessCount=0;
+        theGame.setGuessCount(0);
         theGame.setWrongGuesses("");
         }
         }while(playAgain.equals("Y"));

@@ -3,7 +3,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class methodTests {
 
 
-    GameMethods underTest = new GameMethods("CAT","STOP");
+    GameMethods underTest = new GameMethods("CAT","STOP",0);
 
 @Test
     public void shouldReturnSecretWord(){
