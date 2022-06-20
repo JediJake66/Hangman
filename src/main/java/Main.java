@@ -1,9 +1,5 @@
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.Locale;
+import java.util.Objects;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,27 +12,18 @@ public class Main {
         theGame.assignWord();
         do {
             theGame.printMan();
-
-            try{
+            theGame.getBlanks();
             guess = input.nextLine().toUpperCase();
-            }catch (Exception e) {
-                           
-            }
             if (guessList.toString().contains(guess)) {
                     System.out.println("You've already tried this one");
                 }
-
             else{guessList.append(guess);
             }
             if(guess.length()!=1){
                 System.out.println("Please Follow Instructions!");
                 theGame.setGuessCount(+1);
             }else {
-                try {
                     theGame.checker(guess);
-                } catch (Exception e) {
-                    System.out.println("Don't enter numbers!");
-                }
             }
 
         if(theGame.getGuessCount()==6){
@@ -49,7 +36,15 @@ public class Main {
         playAgain=input.next().toUpperCase();
         theGame.setGuessCount(0);
         theGame.setWrongGuesses("");
+        theGame.setBlanks("");
+        }else if(Objects.equals(theGame.getBlanks(), theGame.getSecretWord())){
+            theGame.winner();
+            playAgain=input.next().toUpperCase();
+            theGame.setGuessCount(0);
+            theGame.setWrongGuesses("");
+            theGame.setBlanks("");
         }
+
         }while(playAgain.equals("Y"));
     }
 }

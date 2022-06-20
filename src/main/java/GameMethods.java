@@ -1,6 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -9,7 +11,6 @@ public class GameMethods {
     private String wrongGuesses;
     private int guessCount;
     private String blanks="";
-
 
     public GameMethods(String secretWord,String wrongGuesses,int guessCount){
         this.secretWord=secretWord;
@@ -29,13 +30,14 @@ public class GameMethods {
 
         return wrongGuesses;
     }
-    public void getBlanks() {
+    public String getBlanks() {
         if (blanks.length() != secretWord.length()) {
             for (int i = 0; i < secretWord.length(); i++) {
                 blanks+="_";
             }
         }
         System.out.println(blanks);
+        return blanks;
     }
     public void setSecretWord(String secretWord){this.secretWord=secretWord;}
     public void setWrongGuesses(String wrongGuesses){
@@ -72,11 +74,10 @@ public class GameMethods {
         if(secretWord.contains(guess)){
             for(int i=0;i<secretWord.length();i++){
                 if(secretWord.charAt(i)==guess.charAt(0)){
-                     
-                    blanks.replace(blanks.charAt(i),guess.charAt(0));
-                }
+                  blanks=blanks.substring(0,i)+guess+blanks.substring(i+1);
+                    }
+
             }
-            System.out.println(blanks);
             return true;
         }else{
             if(!wrongGuesses.contains(guess)){
@@ -85,6 +86,13 @@ public class GameMethods {
             }
             return false;
           }
+        }
+
+        public void winner(){
+        if(blanks.equals(secretWord)){
+            System.out.println("You Win!!");
+            System.out.println("Play again? y/n");
+        }
         }
         public void printMan(){
             System.out.println("  H A N G M A N  ");
@@ -123,8 +131,6 @@ public class GameMethods {
             }
             System.out.println("===========");
             System.out.println("Missed Guesses: " + wrongGuesses);
-            System.out.println(secretWord);
-            getBlanks();
             System.out.println("Guess a single letter. Multiple letters incur a penalty!");
             System.out.println("You have " +(6-guessCount)+" guesses remaining.");
         }
