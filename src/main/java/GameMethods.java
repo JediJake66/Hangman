@@ -8,6 +8,8 @@ public class GameMethods {
     private String secretWord;
     private String wrongGuesses;
     private int guessCount;
+    private String blanks="";
+
 
     public GameMethods(String secretWord,String wrongGuesses,int guessCount){
         this.secretWord=secretWord;
@@ -27,12 +29,23 @@ public class GameMethods {
 
         return wrongGuesses;
     }
+    public void getBlanks() {
+        if (blanks.length() != secretWord.length()) {
+            for (int i = 0; i < secretWord.length(); i++) {
+                blanks+="_";
+            }
+        }
+        System.out.println(blanks);
+    }
+    public void setSecretWord(String secretWord){this.secretWord=secretWord;}
     public void setWrongGuesses(String wrongGuesses){
         this.wrongGuesses=wrongGuesses;
     }
     public void setGuessCount(int guessCount){
         this.guessCount=guessCount;
     }
+    public void setBlanks(String blanks){this.blanks=blanks;}
+
 
     public void assignWord(){
         Scanner wordFile=new Scanner(System.in);
@@ -48,7 +61,7 @@ public class GameMethods {
         while(wordFile.hasNextLine()){
             words.add(wordFile.nextLine());
         }
-        secretWord=words.get(lineNumber);
+        secretWord=words.get(lineNumber).toUpperCase();
     }
 
     public boolean checker(String guess){
@@ -57,7 +70,13 @@ public class GameMethods {
             return false;
         }
         if(secretWord.contains(guess)){
-            System.out.println("play again? y/n");
+            for(int i=0;i<secretWord.length();i++){
+                if(secretWord.charAt(i)==guess.charAt(0)){
+                     
+                    blanks.replace(blanks.charAt(i),guess.charAt(0));
+                }
+            }
+            System.out.println(blanks);
             return true;
         }else{
             if(!wrongGuesses.contains(guess)){
@@ -104,9 +123,11 @@ public class GameMethods {
             }
             System.out.println("===========");
             System.out.println("Missed Guesses: " + wrongGuesses);
-            System.out.println("_____________");
+            System.out.println(secretWord);
+            getBlanks();
             System.out.println("Guess a single letter. Multiple letters incur a penalty!");
             System.out.println("You have " +(6-guessCount)+" guesses remaining.");
         }
-    }
+}
+
 

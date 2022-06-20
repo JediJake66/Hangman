@@ -13,9 +13,10 @@ public class Main {
         String guess="";
         String playAgain = "Y";
         StringBuilder guessList = new StringBuilder();
+        theGame.assignWord();
         do {
-            theGame.assignWord();
             theGame.printMan();
+
             try{
             guess = input.nextLine().toUpperCase();
             }catch (Exception e) {
@@ -29,6 +30,7 @@ public class Main {
             }
             if(guess.length()!=1){
                 System.out.println("Please Follow Instructions!");
+                theGame.setGuessCount(+1);
             }else {
                 try {
                     theGame.checker(guess);
