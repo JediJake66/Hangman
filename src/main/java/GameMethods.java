@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.stream.Stream;
 
 public class GameMethods {
     private String secretWord;
@@ -48,6 +49,13 @@ public class GameMethods {
     }
     public void setBlanks(String blanks){this.blanks=blanks;}
 
+    public void reset(){
+        setGuessCount(0);
+        setWrongGuesses("");
+        setBlanks("");
+        assignWord();
+    }
+
 
     public void assignWord(){
         Scanner wordFile=new Scanner(System.in);
@@ -76,10 +84,10 @@ public class GameMethods {
                 if(secretWord.charAt(i)==guess.charAt(0)){
                   blanks=blanks.substring(0,i)+guess+blanks.substring(i+1);
                     }
-
             }
             return true;
-        }else{
+        }
+        else{
             if(!wrongGuesses.contains(guess)){
             wrongGuesses+=guess;
             guessCount++;
@@ -87,6 +95,7 @@ public class GameMethods {
             return false;
           }
         }
+
 
         public void winner(){
         if(blanks.equals(secretWord)){
